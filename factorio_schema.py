@@ -13,6 +13,11 @@ def make_wrapper_object(data, lua_object):
     the relevant factorio data.'''
     return classes[get_class_name(lua_object.type)](data, lua_object)
 
+def get_all_tables(pseudo_name):
+    '''This returns the list of all tables that comprise the subclasses of the
+    given type.'''
+    return classes[get_class_name(pseudo_name)].tables
+
 class FactorioData(object):
     '''The base class for all data coming from the lua.data table.'''
     def __init__(self, data, lua_object):
@@ -261,7 +266,8 @@ while unmade_classes:
 
 # Export the classes. Dynamic scope magic for the win!
 globals().update(classes)
-__all__ = list(classes) + ['FactorioData', 'make_wrapper_object']
+__all__ = list(classes) + ['FactorioData', 'make_wrapper_object',
+        'get_all_tables']
 
 # Add onto each class the list of tables that it encompasses.
 for name, clazz in classes.items():

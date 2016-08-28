@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<head>
+<script src="scripts/d3.v4.js"></script>
+<script src="scripts/tech-tree.js"></script>
+<style>
+div#tech-tree > table {
+  border-spacing: 100px 3px;
+  margin-left: -100px;
+}
+td.tech {
+  height: 70px;
+  min-width: 300px;
+  border: 1px solid black;
+  background: #eaf2f8;
+}
+
+td.tech > img.tech-icon {
+  width: 64px;
+  height: 64px;
+  float: left;
+  margin: 3px;
+}
+
+td.tech > div {
+  font-size: 12px;
+  font-family: monospace;
+}
+td.tech > div > img {
+  max-height: 16px;
+  vertical-align: middle;
+}
+
+div#tech-tree > svg {
+  position: absolute;
+  z-index: -1;
+}
+
+svg > path {
+  stroke: black;
+  stroke-width: 1;
+  fill: none;
+}
+</style>
+</head>
+<body onload="load_tables(['l10n', 'technology', 'full-item'], process_tree)">
+  <h1>Factorio Technology Tree</h1>
+<div id="tech-tree">
+  Loading data…
+</div>
+</body>

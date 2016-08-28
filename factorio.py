@@ -2,10 +2,12 @@
 This is a library for manipulating factorio data from Python.
 '''
 
+import ConfigParser
 import factorio_schema
 import json
 import lupa
 import os
+import StringIO
 import zipfile
 
 # XXX: Fix these for !Linux
@@ -55,6 +57,22 @@ def read_mod_file(moddir, filename):
                 return innerfd.read()
     with open(os.path.join(moddir, filename)) as fd:
         return fd.read()
+
+def list_mod_dir(moddir, directory):
+    '''Produce a list of files in the directory in the mod.'''
+    if moddir.endswith('.zip'):
+        basename = os.path.basename(moddir)
+        filename = os.path.join(basename[:-4], directory)
+        with open(moddir) as fd:
+            zfd = zipfile.ZipFile(fd)
+            files = zfd.namelist()
+        files = map(lambda p: p[len(basename) - 3:], files)
+        files = filter(lambda p: p.startswith(directory + '/') and
+                p[:-1] != directory, files)
+        files = map(lambda p: p[len(directory) + 1:], files)
+    else:
+        files = os.listdir(os.path.join(moddir, directory))
+    return map(lambda p: os.path.join(directory, p), files)
 
 def get_load_order(modmap):
     '''Return a list of mods in the order they need to be loaded in.'''
@@ -258,6 +276,33 @@ class FactorioData(object):
         for name, value in self._data[table].items():
             converted[name] = factorio_schema.make_wrapper_object(self, value)
         return converted
+
+    def load_pseudo_table(self, tablename):
+        '''Load the set of tables that include objects of the same type as the
+        table, wrapped as in load_table.'''
+        master_table = dict()
+        for table in factorio_schema.get_all_tables(tablename):
+            if self._data[table]:
+                master_table.update(self.load_table(table))
+        return master_table
+
+    def get_l10n_tables(self):
+        '''Return a dict of name -> (dict(key -> en(l10n))) values.'''
+        master = dict()
+        for mod in get_load_order(self.mods):
+            moddir = self.mods[mod]
+            l10nfiles = list_mod_dir(moddir, 'locale/en')
+            l10nfiles = filter(lambda p: p.endswith('.cfg'), l10nfiles)
+            for f in l10nfiles:
+                parser = ConfigParser.ConfigParser()
+                data = read_mod_file(moddir, f)
+                data = '[default]\n' + data
+                parser.readfp(StringIO.StringIO(data))
+                for section in parser.sections():
+                    if section not in master:
+                        master[section] = dict()
+                    master[section].update(parser.items(section))
+        return master
 
     @cached_property
     def recipes(self):

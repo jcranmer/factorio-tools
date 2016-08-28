@@ -32,5 +32,27 @@ def json_table(table):
         resp.stream, sort_keys=True)
     return resp
 
+@app.route('/data/full-<table>.json')
+def json_full_table(table):
+    resp = flask.Response(mimetype="application/json")
+    json.dump(dict((n, v.to_json()) for n, v in data.load_pseudo_table(table).items()),
+        resp.stream, sort_keys=True)
+    return resp
+
+@app.route('/data/l10n.json')
+def json_data():
+    resp = flask.Response(mimetype="application/json")
+    json.dump(data.get_l10n_tables(), resp.stream, sort_keys=True)
+    return resp
+
+@app.route('/tech-tree')
+def tech_tree():
+    return flask.render_template('tech-tree.html')
+
+# XXX
+@app.route('/scripts/<path:script>')
+def script(script):
+    return flask.render_template(script)
+
 if __name__ == '__main__':
     app.run(debug=True)
