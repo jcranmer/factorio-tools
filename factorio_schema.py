@@ -5,6 +5,7 @@ classes here are loaded dynamically from a schema.json file.
 If you run the file directly, you can verify the correctness of the schema.
 '''
 
+import factorio_types
 import functools
 import json
 
@@ -148,7 +149,7 @@ def parse_data_value(schema_type, data, value):
     parameter is the reference to the Factorio context variable.'''
 
     # Simple data
-    if isinstance(schema_type, unicode):
+    if isinstance(schema_type, unicode) or isinstance(schema_type, str):
         return data_types[schema_type](data, value)
 
     # Convert tables into lists or dictionaries as appropriate
@@ -171,6 +172,10 @@ def parse_data_value(schema_type, data, value):
             return tuple(parse_data_value(t, data, x) for t, x in zip(schemata, value))
 
     if isinstance(schema_type, dict):
+        # Null is a legal value.
+        if value is None:
+            return None
+
         # Check that value is also a dict
         if not isinstance(value, dict):
             raise Exception("Expected a dict, got %s" % repr(value))
@@ -178,7 +183,14 @@ def parse_data_value(schema_type, data, value):
         # Map each entry of the known dictionary. This is basically the same
         # schema as the type in the first place.
         converted_value = dict()
+        claimed_keys = set()
         for key, desc in schema_type.items():
+            if key.startswith("_"):
+                # This is a special pseudo-key.
+                claimed_keys.update(getattr(factorio_types, desc)(
+                    data, value, converted_value))
+                continue
+
             if key not in value:
                 if not desc['optional']:
                     raise Exception("Missing key %s" % key)
@@ -188,7 +200,7 @@ def parse_data_value(schema_type, data, value):
             converted_value[key] = parse_data_value(desc['type'], data, new_val)
 
         # Punish unknown_keys here.
-        unknown_keys = set(value) - set(schema_type)
+        unknown_keys = set(value) - set(schema_type) - claimed_keys
         if unknown_keys:
             raise Exception("Found unexpected keys: %s" % ', '.join(unknown_keys))
         return converted_value

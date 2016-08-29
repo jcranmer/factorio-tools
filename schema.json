@@ -30,6 +30,19 @@
         "properties": {
             "icon": { "optional": true, "type": "FileName", "default": "" },
             "fast_replaceable_group": { "optional": true, "type": "string", "default": "" },
+            "minable": { "optional": true, "type": {
+              "_results": "mining_results",
+              "hardness": { "optional": true, "type": "float", "default": 1 },
+              "mining_particle": { "optional": true, "type": "Particle", "default": null },
+              "mining_time": { "optional": false, "type": "float", "default": 1 },
+              "results": { "optional": true, "type": [{
+                "amount_max": { "optional": false, "type": "float" },
+                "amount_min": { "optional": false, "type": "float" },
+                "name": { "optional": false, "type": "string" },
+                "type": { "optional": false, "type": "string" },
+                "probability": { "optional": false, "type": "float" }
+              }], "default": [] }
+            }, "default": null },
             "weight": { "optional": true, "type": "float", "default": 1 }
          }
     },
@@ -41,14 +54,32 @@
     "equipment": { "abstract": true, "parent": "item" },
     "explosion": { "parent": "entity" },
     "fish": { "parent": "entity-with-health" },
-    "fluid": { "parent": null },
+    "fluid": { "parent": null,
+      "properties": {
+        "default_temperature": { "optional": false, "type": "float" },
+        "flow_to_energy_ratio": { "optional": false, "type": "float" },
+        "icon": { "optional": false, "type": "FileName" },
+        "max_temperature": { "optional": false, "type": "float" },
+        "pressure_to_speed_ratio": { "optional": false, "type": "float" }
+       }
+    },
     "flying-text": { "parent": "entity" },
     "furnace": { "parent": "entity-with-health" },
     "generator": { "parent": "pipe-connectable" },
     "generator-equipment": { "parent": "equipment" },
     "ghost": { "abstract": true, "parent": "entity" },
     "gun": { "parent": "item" },
-    "inserter": { "parent": "entity-with-health" },
+    "inserter": { "parent": "entity-with-health",
+      "properties": {
+        "energy_per_movement": { "optional": false, "type": "integer" },
+        "energy_per_rotation": { "optional": false, "type": "integer" },
+        "extension_speed": { "optional": false, "type": "float" },
+        "rotation_speed": { "optional": false, "type": "float" },
+        "filter_count": { "optional": true, "type": "integer", "default": 0 },
+        "hand_size": { "optional": false, "type": "float" },
+        "stack": { "optional": true, "type": "bool", "default": "false" }
+      }
+    },
     "item": { "parent": null,
         "properties": {
             "icon": { "optional": true, "type": "FileName", "default": "" },
@@ -99,7 +130,15 @@
     },
     "recipe-category": { "parent": null },
     "repair-tool": { "parent": "tool" },
-    "resource": { "parent": "entity" },
+    "resource": { "parent": "entity",
+      "properties": {
+        "category": {"optional": true, "type": "ResourceCategory", "default": "basic-solid" },
+        "infinite": {"optional": true, "type": "bool", "default": false },
+        "maximum": { "optional": true, "type": "integer", "default": 0 },
+        "minimum": { "optional": true, "type": "integer", "default": 0 },
+        "normal": { "optional": true, "type": "integer", "default": 0 }
+      }
+    },
     "roboport": { "parent": "entity-with-health" },
     "robot": { "abstract": true, "parent": "entity-with-health" },
     "rocket-defense": { "parent": "entity-with-health" },
@@ -130,7 +169,11 @@
     "tool": { "parent": "item" },
     "train-stop": { "parent": "entity-with-health" },
     "train-unit": { "abstract": true, "parent": "entity-with-health" },
-    "transport-belt": { "parent": "entity-with-health" },
+    "transport-belt": { "parent": "entity-with-health",
+      "properties": {
+        "speed": { "optional": false, "type": "float" }
+      }
+    },
     "tree": { "parent": "entity-with-health" },
     "turret": { "parent": "entity-with-health" },
     "underground-belt": { "parent": "entity-with-health" },
