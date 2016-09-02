@@ -136,56 +136,6 @@ def get_mod_list(factorio_path, user_path=USER_PATH):
         modmap[mod] = modnames[mod]
     return modmap
 
-class FactorioRecipe(object):
-    def __init__(self, data, lua_recipe):
-        self.data = data
-        self.lua = lua_recipe
-
-    def _map_array(self, arr):
-        return dict(map(lambda e: (e[1], e[2])
-                if e.keys().next() == 1 else (e.name, e.amount),
-                arr.values()))
-
-    def get_results(self):
-        '''Return a dictionary of result name -> result count.'''
-        if self.lua.result:
-            count = self.lua.count if self.lua.count else 1
-            results = dict()
-            results[self.lua.result] = count
-        else:
-            results = self._map_array(self.lua.results)
-        return results
-
-    def get_ingredients(self):
-        '''Return a dictionary of ingredient name -> ingredient count.'''
-        return self._map_array(self.lua.ingredients)
-
-    def get_crafttime(self):
-        '''Return crafting time in seconds.'''
-        return self.lua.energy_required if self.lua.energy_required else 0.5
-
-    @cached_property
-    def name(self):
-        return self.lua.name
-
-    def get_icon_path(self):
-        print self.name, list(self.lua)
-        return self.data.resolve_path(self.lua.icon)
-
-    def __repr__(self):
-        return 'Recipe(%s)' % self.lua.name
-
-class FactorioItem(object):
-    def __init__(self, data, lua_item):
-        self.data = data
-        self.lua = lua_item
-
-    def get_icon_path(self):
-        return self.data.resolve_path(self.lua.icon)
-
-    def __repr__(self):
-        return 'Item(%s)' % self.lua.name
-
 class FactorioData(object):
     '''This class represents the contextual data for a Factorio data and loaded
     mods.'''
@@ -303,33 +253,6 @@ class FactorioData(object):
                         master[section] = dict()
                     master[section].update(parser.items(section))
         return master
-
-    @cached_property
-    def recipes(self):
-        '''Returns a dictionary of name -> FactorioRecipe representing the
-        available recipes for a given item.'''
-        # Set up the recipes dict.
-        item_recipes = dict()
-        for name, value in self._data.recipe.items():
-            if value.result:
-                results = [value.result]
-            else:
-                results = [r.name for r in value.results.values()]
-            recipe = FactorioRecipe(self, value)
-            for result in results:
-                recipe_list = item_recipes.setdefault(result, [])
-                recipe_list.append(recipe)
-        return item_recipes
-
-    @cached_property
-    def items(self):
-        result = dict()
-        for types in ['item', 'fluid', 'ammo', 'gun', 'module', 'mining-tool',
-                'armor', 'capsule', 'repair-tool', 'tool', 'blueprint-book',
-                'blueprint', 'deconstruction-item', 'rail-planner']:
-            result.update(dict((n, FactorioItem(self, v))
-                for n, v in self._data[types].items()))
-        return result
 
     def load_path(self, path):
         '''Returns the contents of the given file.'''
