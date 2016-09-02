@@ -6,7 +6,13 @@
     "ammo-turret": { "parent": "turret" },
     "armor": { "parent": "tool" },
     "arrow": { "parent": "entity" },
-    "assembling-machine": { "parent": "entity-with-health" },
+    "assembling-machine": { "parent": "entity-with-health",
+      "properties": {
+        "crafting_categories": { "optional": false, "type": ["RecipeCategory"] },
+        "crafting_speed": { "optional": false, "type": "float" },
+        "ingredient_count": { "optional": false, "type": "integer" }
+      }
+    },
     "autoplace-control": { "parent": null },
     "battery-equipment": { "parent": "equipment" },
     "beacon": { "parent": "entity-with-health" },
@@ -51,7 +57,7 @@
             "max_health": { "optional": false, "type": "float" }
          }
     },
-    "equipment": { "abstract": true, "parent": "item" },
+    "equipment": { "abstract": true, "parent": null },
     "explosion": { "parent": "entity" },
     "fish": { "parent": "entity-with-health" },
     "fluid": { "parent": null,
@@ -64,7 +70,12 @@
        }
     },
     "flying-text": { "parent": "entity" },
-    "furnace": { "parent": "entity-with-health" },
+    "furnace": { "parent": "entity-with-health",
+      "properties": {
+        "crafting_categories": { "optional": false, "type": ["RecipeCategory"] },
+        "crafting_speed": { "optional": false, "type": "float" }
+      }
+    },
     "generator": { "parent": "pipe-connectable" },
     "generator-equipment": { "parent": "equipment" },
     "ghost": { "abstract": true, "parent": "entity" },
@@ -76,7 +87,7 @@
         "extension_speed": { "optional": false, "type": "float" },
         "rotation_speed": { "optional": false, "type": "float" },
         "filter_count": { "optional": true, "type": "integer", "default": 0 },
-        "hand_size": { "optional": false, "type": "float" },
+        "hand_size": { "optional": true, "type": "float", "default": 1 },
         "stack": { "optional": true, "type": "bool", "default": "false" }
       }
     },
@@ -84,11 +95,24 @@
         "properties": {
             "icon": { "optional": true, "type": "FileName", "default": "" },
             "stack_size": { "optional": true, "type": "integer", "default": 1 },
+            "subgroup": { "optional": true, "type": "ItemSubgroup", "default": "other" },
             "order": { "optional": true, "type": "string", "default": "" }
         }
     },
     "item-entity": { "parent": "entity" },
-    "item-group": { "parent": null },
+    "item-group": { "parent": null,
+      "properties": {
+        "icon": { "optional": false, "type": "FileName" },
+        "inventory_order": { "optional": true, "type": "string", "default": "" },
+        "order": { "optional": false, "type": "string" }
+      }
+    },
+    "item-subgroup": { "parent": null,
+      "properties": {
+        "group": { "optional": false, "type": "ItemGroup" },
+        "order": { "optional": false, "type": "string" }
+      }
+    },
     "item-with-inventory": { "parent": "item-with-label" },
     "item-with-label": { "parent": "item", "abstract": true },
     "lab": { "parent": "entity-with-health" },
@@ -99,7 +123,13 @@
     "logistic-robot": { "parent": "robot" },
     "map-settings": { "parent": null },
     "market": { "parent": "entity-with-health" },
-    "mining-drill": { "parent": "entity-with-health" },
+    "mining-drill": { "parent": "entity-with-health",
+      "properties": {
+        "mining_power": { "optional": false, "type": "float" },
+        "mining_speed": { "optional": false, "type": "float" },
+        "resource_categories": { "optional": false, "type": ["ResourceCategory"] }
+      }
+    },
     "mining-tool": { "parent": "tool" },
     "module": { "parent": "item" },
     "movement-bonus-equipment": { "parent": "equipment" },
@@ -118,14 +148,17 @@
     "rail-remnants": { "parent": "entity" },
     "rail-signal": { "parent": "entity-with-health" },
     "recipe": { "parent": null,
+        "complex-properties": {
+          "ingredients": "recipe_ingredients",
+          "results": "recipe_results"
+        },
         "properties": {
-            "ingredients": { "optional": false, "type": "" },
-            "result": { "optional": true, "type": "string", "default": null },
-            "results": { "optional": true, "type": "", "default": null },
-            "result_count": { "optional": true, "type": "integer", "default": 1 },
             "category": { "optional": true, "type": "RecipeCategory", "default": null },
             "energy_required": { "optional": true, "type": "float", "default": 0.5 },
-            "enabled": { "optional": true, "type": "bool", "default": true }
+            "enabled": { "optional": true, "type": "bool", "default": true },
+            "icon": { "optional": true, "type": "FileName", "default": null },
+            "order": { "optional": true, "type": "string", "default": "" },
+            "subgroup": { "optional": true, "type": "string", "default": "other" }
         }
     },
     "recipe-category": { "parent": null },
@@ -212,7 +245,6 @@
     "font": { "parent": null },
     "gate": { "parent": "entity-with-health" },
     "gui-style": { "parent": null },
-    "item-subgroup": { "parent": null },
     "loader": { "parent": "entity-with-health" },
     "offshore-pump": {"parent": "entity-with-health" },
     "power-switch": {"parent": "entity-with-health" },

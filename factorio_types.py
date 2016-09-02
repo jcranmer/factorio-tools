@@ -28,10 +28,29 @@ def mining_results(data, lua, output_dict):
     output_dict['results'] = arr
     return claimed
 
-#              "results": { "optional": true, "type": [{
-#                "amount_max": { "optional": false, "type": "float" },
-#                "amount_min": { "optional": false, "type": "float" },
-#                "name": { "optional": false, "type": "string" },
-#                "type": { "optional": false, "type": "string" },
-#                "probability": { "optional": false, "type": "float" }
-#              }], "default": [] }
+def _map_array(lua_array, out_dict):
+    for element in lua_array.values():
+        if element.type:
+            name = element.name
+            ty = element.type
+            amount = element.amount
+        else:
+            name = element[1]
+            ty = "item"
+            amount = element[2]
+        out_dict[name] = amount
+    return
+
+def recipe_ingredients(data, lua):
+    ingredients = {}
+    _map_array(lua.ingredients, ingredients)
+    return (ingredients, ['ingredients'])
+
+def recipe_results(data, lua):
+    results = {}
+    if lua.result:
+        results[lua.result] = lua.result_count if lua.result_count else 1
+        return (results, ['result', 'result_count'])
+    else:
+        _map_array(lua.results, results)
+        return (results, ['results'])

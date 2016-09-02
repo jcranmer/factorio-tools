@@ -242,6 +242,23 @@ class DataLoader(object):
     def __set__(self, inst, value):
         raise AttributeError("Cannot set %s" % self.__name__)
 
+class DataPreloader(object):
+    def __init__(self, schema, classname):
+        self._schema = schema
+        self._classname = classname
+
+    def __get__(self, inst, owner):
+        return functools.partial(self.__call__, inst)
+
+    def __call__(self, iself, data, lua_object):
+        super(classes[self._classname], iself).__init__(data, lua_object)
+        for name, desc in self._schema.get("complex-properties", {}).items():
+            value, keys = getattr(factorio_types, desc)(data, lua_object)
+            setattr(iself, name, value)
+            if not hasattr(iself, '_known_keys'):
+                iself._known_keys = []
+            iself._known_keys += keys
+
 def make_class(name, parent):
     '''This creates a python class object with the given name and superclass.'''
     methods = dict()
@@ -251,7 +268,12 @@ def make_class(name, parent):
         methods[prop] = DataLoader(prop, descriptor)
 
     methods['prop_list'] = parent.prop_list + \
-            list(schema[name].get('properties', {}))
+            list(schema[name].get('properties', {})) + \
+            list(schema[name].get('complex-properties', {}))
+
+    methods['__init__'] = DataPreloader(schema[name], get_class_name(name))
+    methods['abstract'] = schema[name].get('abstract', False)
+    methods['_slots'] = methods['prop_list'] + list(schema[name].get('complex-properties', {}))
 
     return type(get_class_name(name), (parent,), methods)
 
@@ -308,19 +330,21 @@ if __name__ == '__main__':
         # Find missing keys
         unknown_keys = set()
         clazz = classes[get_class_name(table)]
-        known_keys = clazz.prop_list
+        known_keys = list(clazz.prop_list)
         for value in raw[table].values():
             unknown_keys.update(list(value))
 
             # Exercise the property getters
             wrapped = clazz(data, value)
-            for key in known_keys:
+            for key in clazz.prop_list:
                 try:
                     getattr(wrapped, key)
                 except:
                     print 'Property %s of %s has bad schema' % (key, table)
                     print 'Value for %s: ->%s<-' % (wrapped.name, wrapped.lua[key])
                     raise
+            if hasattr(wrapped, '_known_keys'):
+                known_keys += wrapped._known_keys
 
         unknown_keys.difference_update(set(known_keys))
         if unknown_keys:
