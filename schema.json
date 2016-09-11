@@ -153,7 +153,7 @@
           "results": "recipe_results"
         },
         "properties": {
-            "category": { "optional": true, "type": "RecipeCategory", "default": null },
+            "category": { "optional": true, "type": "RecipeCategory", "default": "crafting" },
             "energy_required": { "optional": true, "type": "float", "default": 0.5 },
             "enabled": { "optional": true, "type": "bool", "default": true },
             "icon": { "optional": true, "type": "FileName", "default": null },

@@ -49,6 +49,10 @@ def json_data():
 def tech_tree():
     return flask.render_template('tech-tree.html')
 
+@app.route('/ratio')
+def ratio():
+    return flask.render_template('ratio.html')
+
 # XXX
 @app.route('/scripts/<path:script>')
 def script(script):

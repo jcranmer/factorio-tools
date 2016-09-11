@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<head>
+<script src="scripts/d3.v4.js"></script>
+<script src="scripts/data-helpers.js"></script>
+<script src="scripts/item.js"></script>
+<script src="scripts/ratio.js"></script>
+<style>
+div#building-selection > div {
+  display: inline-block;
+  margin: 0.3em;
+}
+tbody#ratio-list img {
+  vertical-align: middle;
+}
+</style>
+</head>
+<body onload="load_page()">
+  <h1>Factorio Ratio Calculator</h1>
+
+<div id="building-selection"></div>
+<table>
+  <thead><th>Recipe</th><th>Requirements</th></thead>
+  <tbody id="ratio-list"></tbody>
+</table>
+</body>
