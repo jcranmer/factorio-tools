@@ -26,6 +26,7 @@
     "construction-robot": { "parent": "robot" },
     "container": { "parent": "entity-with-health" },
     "corpse": { "parent": "entity" },
+    "curved-rail": { "parent": "entity-with-health" },
     "damage-type": { "parent": null },
     "decorative": { "parent": "entity" },
     "deconstruction-item": { "parent": "selection-tool" },
@@ -33,7 +34,11 @@
     "electric-turret": { "parent": "turret" },
     "energy-shield-equipment": { "parent": "equipment" },
     "entity": { "abstract": true, "parent": null,
+        "complex-properties": {
+            "animation": "entity_animation"
+        },
         "properties": {
+            "collision_box": { "optional": true, "type": "rect", "default": "" },
             "icon": { "optional": true, "type": "FileName", "default": "" },
             "fast_replaceable_group": { "optional": true, "type": "string", "default": "" },
             "minable": { "optional": true, "type": {
@@ -49,6 +54,7 @@
                 "probability": { "optional": false, "type": "float" }
               }], "default": [] }
             }, "default": null },
+            "selection_box": { "optional": true, "type": "rect", "default": "" },
             "weight": { "optional": true, "type": "float", "default": 1 }
          }
     },
@@ -66,7 +72,9 @@
         "flow_to_energy_ratio": { "optional": false, "type": "float" },
         "icon": { "optional": false, "type": "FileName" },
         "max_temperature": { "optional": false, "type": "float" },
-        "pressure_to_speed_ratio": { "optional": false, "type": "float" }
+        "order": { "optional": true, "type": "string", "default": "" },
+        "pressure_to_speed_ratio": { "optional": false, "type": "float" },
+        "subgroup": { "optional": true, "type": "ItemSubgroup", "default": "fluid" }
        }
     },
     "flying-text": { "parent": "entity" },
@@ -156,6 +164,7 @@
             "category": { "optional": true, "type": "RecipeCategory", "default": "crafting" },
             "energy_required": { "optional": true, "type": "float", "default": 0.5 },
             "enabled": { "optional": true, "type": "bool", "default": true },
+            "hidden": { "optional": true, "type": "bool", "default": false },
             "icon": { "optional": true, "type": "FileName", "default": null },
             "order": { "optional": true, "type": "string", "default": "" },
             "subgroup": { "optional": true, "type": "string", "default": "other" }
@@ -182,6 +191,7 @@
     "solar-panel-equipment": { "parent": "equipment" },
     "splitter": { "parent": "entity-with-health" },
     "sticker": { "parent": "entity" },
+    "straight-rail": { "parent": "entity-with-health" },
     "technology": { "parent": null,
         "properties": {
             "order": { "optional": false, "type": "string" },
@@ -212,7 +222,14 @@
     "underground-belt": { "parent": "entity-with-health" },
     "unit": { "parent": "entity-with-health" },
     "unit-spawner": { "parent": "entity-with-health" },
-    "virtual-signal": { "parent": null },
+    "virtual-signal": { "parent": null,
+        "properties": {
+            "icon": { "optional": false, "type": "FileName" },
+            "order": { "optional": false, "type": "string" },
+            "special_signal": { "optional": true, "type": "bool", "default": false },
+            "subgroup": { "optional": false, "type": "string" }
+        }
+    },
     "wall": { "parent": "entity-with-health" },
 
     "achievement": { "parent": null,

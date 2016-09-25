@@ -122,7 +122,7 @@ function build_assembler_selection() {
 
 }
 
-// Compute the rate of production for a recipe. 
+// Compute the rate of production for a recipe.
 function production_rate(recipe) {
   var assembler = assemblers.get(recipe.category);
   return assembler.crafting_speed / recipe.energy_required;
@@ -201,7 +201,7 @@ function build_recipe_table() {
   table.append("td").html(function (r) {
     let reqs = Array.from(ratios[r.name].entries());
     reqs = reqs.map(function ([req, ratio]) {
-      let img = req in tables['full-item'] ? 
+      let img = req in tables['full-item'] ?
         "<img src=\"image/" + tables['full-item'][req].icon + "\">" :
         "";
       return ratio[0] + " : " + ratio[1] + " " + img + req;

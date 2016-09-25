@@ -71,7 +71,10 @@ def list_mod_dir(moddir, directory):
                 p[:-1] != directory, files)
         files = map(lambda p: p[len(directory) + 1:], files)
     else:
-        files = os.listdir(os.path.join(moddir, directory))
+        if os.path.exists(os.path.join(moddir, directory)):
+            files = os.listdir(os.path.join(moddir, directory))
+        else:
+            files = []
     return map(lambda p: os.path.join(directory, p), files)
 
 def get_load_order(modmap):
@@ -223,6 +226,8 @@ class FactorioData(object):
         '''Load the given lua table, wrapping each object with the appropriate
         wrapper from the factorio_schema module.'''
         converted = dict()
+        if self._data[table] == None:
+            print table
         for name, value in self._data[table].items():
             converted[name] = factorio_schema.make_wrapper_object(self, value)
         return converted

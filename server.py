@@ -27,6 +27,8 @@ def full_lua():
 
 @app.route('/data/<table>.json')
 def json_table(table):
+    if table not in data._data:
+        flask.abort(404)
     resp = flask.Response(mimetype="application/json")
     json.dump(dict((n, v.to_json()) for n, v in data.load_table(table).items()),
         resp.stream, sort_keys=True)
@@ -44,6 +46,10 @@ def json_data():
     resp = flask.Response(mimetype="application/json")
     json.dump(data.get_l10n_tables(), resp.stream, sort_keys=True)
     return resp
+
+@app.route('/item-info')
+def item_info():
+    return flask.render_template('item-info.html')
 
 @app.route('/tech-tree')
 def tech_tree():

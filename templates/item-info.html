@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<head>
+<script src="scripts/d3.v4.js"></script>
+<script src="scripts/data-helpers.js"></script>
+<script src="scripts/item.js"></script>
+<script src="scripts/item-info.js"></script>
+<style>
+div#building-selection > div {
+  display: inline-block;
+  margin: 0.3em;
+}
+tbody#ratio-list img {
+  vertical-align: middle;
+}
+</style>
+</head>
+<body onload="load_page()">
+  <h1>Factorio Item Information</h1>
+
+<div id="group"></div>
+<div id="item-info">
+  <h2 id="title"></h2>
+  <h3>Recipes</h3>
+  <table>
+    <thead><th>Name</th><th>Ingredients</th><th>Results</th></thead>
+    <tbody id="sources"></tbody>
+  </table>
+  <h3>Used by</h3>
+  <table>
+    <thead><th>Name</th><th>Ingredients</th><th>Results</th></thead>
+    <tbody id="uses"></tbody>
+  </table>
+</div>
+</body>

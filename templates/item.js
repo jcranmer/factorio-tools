@@ -1,4 +1,4 @@
-function make_item_selector(container, groups, subgroups, item_tables) {
+function make_item_selector(container, groups, subgroups, item_tables, on_select) {
   function sort_order(a, b) {
     if (a.order < b.order)
       return -1;
@@ -57,8 +57,11 @@ function make_item_selector(container, groups, subgroups, item_tables) {
       item_imgs.enter().append("img")
         .merge(item_imgs)
         .attr("src", item => "image/" + item.icon)
-        .attr("title", item => tables.l10n["item-name"][item.name])
-        .attr("width", 32).attr("height", 32);
+        .attr("title", item => tables.l10n["item-name"][item.name] || item.name)
+        .attr("width", 32).attr("height", 32)
+        .on("click", function (d) {
+            on_select(d);
+        });
     });
 
   d3.select(image_list).raise();
@@ -76,8 +79,22 @@ function fix_recipes() {
       recipe.subgroup = item.subgroup;
       recipe.order = item.order;
     }
+    if (recipes[key].hidden)
+        delete recipes[key];
   }
 }
 
 function get_craftables() {
+}
+
+function name_item(item_name, table) {
+  if (typeof item_name != "string")
+    var item = item_name;
+  else if (table)
+    var item = table[item_name];
+  else if (item_name in tables.get('fluid'))
+    var item = tables.get('fluid')[item_name];
+  else
+    var item = tables.get('full-item')[item_name];
+  return "<img src=\"image/" + item.icon + "\"> " + item.name;
 }

@@ -28,6 +28,14 @@ function load_tables(table_names) {
  * Promise to load all tables that we need for crafting information.
  */
 function load_crafting_info() {
-  return load_tables(['assembling-machine', 'furnace', 'full-item',
+  return load_tables(['assembling-machine', 'fluid', 'furnace', 'full-item',
     'item-group', 'item-subgroup', 'mining-drill', 'recipe', 'resource']);
+}
+
+/**
+ * Return an array of values in a table.
+ */
+function get_values(table) {
+  var t = tables.get(table);
+  return Object.keys(t).map(k => t[k]);
 }

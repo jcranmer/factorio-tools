@@ -132,6 +132,22 @@ def coerce_bool(data, val):
         return False
     raise Exception("Unknown bool value: %s" % repr(val))
 
+def bounding_box(val):
+    if val == "":
+        return bounding_box([[0, 0], [0, 0]])
+    if isinstance(val, list):
+        if not isinstance(val[0], list):
+            val = map(encode_lua, val)
+        return bounding_box({ "lefttop": val[0], "rightbottom": val[1] })
+    elif isinstance(val, dict):
+        if not isinstance(val['lefttop'], list):
+            val = dict(map(lambda e: (e[0], encode_lua(e[1])), val.items()))
+        return [val['lefttop'][0:2], val['rightbottom'][0:2]]
+    elif 'Lua table' in repr(val):
+        return bounding_box(encode_lua(val))
+    else:
+        raise Exception("Invalid type for bounding_box: %s" % repr(val))
+
 # This is the list of data type matchings for Lua data. It is defined as a table
 # of schema type name -> conversion function
 data_types = {
@@ -140,6 +156,7 @@ data_types = {
     'float': lambda data, val: coerce_type(val, float),
     'integer': lambda data, val: coerce_type(val, int),
     'string': lambda data, val: coerce_type(val, str),
+    'rect': lambda data, val: bounding_box(val),
     # Catch-all for data whose schema is not yet known
     '': lambda data, val: val
 }
