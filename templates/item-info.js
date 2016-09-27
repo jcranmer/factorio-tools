@@ -1,6 +1,6 @@
 function load_page() {
   load_crafting_info()
-    .then(_ => load_tables(['l10n']))
+    .then(_ => load_tables(['l10n', 'technology']))
     .then(init_page);
 }
 
@@ -24,6 +24,7 @@ function change_item(item) {
 }
 
 function display_recipes(recipes, el) {
+  var techs = get_values('technology');
   var rows = d3.select(el).selectAll("tr").data(recipes);
   rows.exit().remove();
   rows = rows.enter().append("tr").merge(rows);
@@ -48,5 +49,13 @@ function display_recipes(recipes, el) {
     return results.map(ing =>
         recipe.results[ing] + "× " +
         "<a onclick=\"change_item('" + ing + "')\">" + name_item(ing) + "</a>");
+  });
+  rows.append("td").html(function (recipe) {
+    return recipe.category;
+  });
+  rows.append("td").html(function (recipe) {
+    return techs.filter(t => t.effects.recipes.includes(recipe.name))
+      .map(t => t.name)
+      .join(", ");
   });
 }

@@ -1,275 +1,278 @@
 {
-    "accumulator": { "parent": "entity-with-health" },
-    "active-defense-equipment": { "parent": "equipment" },
-    "ammo": { "parent": "item" },
-    "ammo-category": { "parent": null },
-    "ammo-turret": { "parent": "turret" },
-    "armor": { "parent": "tool" },
-    "arrow": { "parent": "entity" },
-    "assembling-machine": { "parent": "entity-with-health",
-      "properties": {
-        "crafting_categories": { "optional": false, "type": ["RecipeCategory"] },
-        "crafting_speed": { "optional": false, "type": "float" },
-        "ingredient_count": { "optional": false, "type": "integer" }
-      }
+  "accumulator": { "parent": "entity-with-health" },
+  "active-defense-equipment": { "parent": "equipment" },
+  "ammo": { "parent": "item" },
+  "ammo-category": { "parent": null },
+  "ammo-turret": { "parent": "turret" },
+  "armor": { "parent": "tool" },
+  "arrow": { "parent": "entity" },
+  "assembling-machine": { "parent": "entity-with-health",
+    "properties": {
+      "crafting_categories": { "optional": false, "type": ["RecipeCategory"] },
+      "crafting_speed": { "optional": false, "type": "float" },
+      "ingredient_count": { "optional": false, "type": "integer" }
+    }
+  },
+  "autoplace-control": { "parent": null },
+  "battery-equipment": { "parent": "equipment" },
+  "beacon": { "parent": "entity-with-health" },
+  "blueprint": { "parent": "selection-tool" },
+  "blueprint-book": { "parent": "item-with-inventory" },
+  "boiler": { "parent": "pipe-connectable" },
+  "capsule": { "parent": "item" },
+  "car": { "parent": "entity-with-health" },
+  "cargo-wagon": { "parent": "train-unit" },
+  "combat-robot": { "parent": "robot" },
+  "construction-robot": { "parent": "robot" },
+  "container": { "parent": "entity-with-health" },
+  "corpse": { "parent": "entity" },
+  "curved-rail": { "parent": "entity-with-health" },
+  "damage-type": { "parent": null },
+  "decorative": { "parent": "entity" },
+  "deconstruction-item": { "parent": "selection-tool" },
+  "electric-pole": { "parent": "entity-with-health" },
+  "electric-turret": { "parent": "turret" },
+  "energy-shield-equipment": { "parent": "equipment" },
+  "entity": { "abstract": true, "parent": null,
+    "complex-properties": {
+      "animation": "entity_animation"
     },
-    "autoplace-control": { "parent": null },
-    "battery-equipment": { "parent": "equipment" },
-    "beacon": { "parent": "entity-with-health" },
-    "blueprint": { "parent": "selection-tool" },
-    "blueprint-book": { "parent": "item-with-inventory" },
-    "boiler": { "parent": "pipe-connectable" },
-    "capsule": { "parent": "item" },
-    "car": { "parent": "entity-with-health" },
-    "cargo-wagon": { "parent": "train-unit" },
-    "combat-robot": { "parent": "robot" },
-    "construction-robot": { "parent": "robot" },
-    "container": { "parent": "entity-with-health" },
-    "corpse": { "parent": "entity" },
-    "curved-rail": { "parent": "entity-with-health" },
-    "damage-type": { "parent": null },
-    "decorative": { "parent": "entity" },
-    "deconstruction-item": { "parent": "selection-tool" },
-    "electric-pole": { "parent": "entity-with-health" },
-    "electric-turret": { "parent": "turret" },
-    "energy-shield-equipment": { "parent": "equipment" },
-    "entity": { "abstract": true, "parent": null,
-        "complex-properties": {
-            "animation": "entity_animation"
-        },
-        "properties": {
-            "collision_box": { "optional": true, "type": "rect", "default": "" },
-            "icon": { "optional": true, "type": "FileName", "default": "" },
-            "fast_replaceable_group": { "optional": true, "type": "string", "default": "" },
-            "minable": { "optional": true, "type": {
-              "_results": "mining_results",
-              "hardness": { "optional": true, "type": "float", "default": 1 },
-              "mining_particle": { "optional": true, "type": "Particle", "default": null },
-              "mining_time": { "optional": false, "type": "float", "default": 1 },
-              "results": { "optional": true, "type": [{
-                "amount_max": { "optional": false, "type": "float" },
-                "amount_min": { "optional": false, "type": "float" },
-                "name": { "optional": false, "type": "string" },
-                "type": { "optional": false, "type": "string" },
-                "probability": { "optional": false, "type": "float" }
-              }], "default": [] }
-            }, "default": null },
-            "selection_box": { "optional": true, "type": "rect", "default": "" },
-            "weight": { "optional": true, "type": "float", "default": 1 }
-         }
+    "properties": {
+      "collision_box": { "optional": true, "type": "rect", "default": "" },
+      "icon": { "optional": true, "type": "FileName", "default": "" },
+      "fast_replaceable_group": { "optional": true, "type": "string", "default": "" },
+      "minable": { "optional": true, "type": {
+        "_results": "mining_results",
+        "hardness": { "optional": true, "type": "float", "default": 1 },
+        "mining_particle": { "optional": true, "type": "Particle", "default": null },
+        "mining_time": { "optional": false, "type": "float", "default": 1 },
+        "results": { "optional": true, "type": [{
+          "amount_max": { "optional": false, "type": "float" },
+          "amount_min": { "optional": false, "type": "float" },
+          "name": { "optional": false, "type": "string" },
+          "type": { "optional": false, "type": "string" },
+          "probability": { "optional": false, "type": "float" }
+        }], "default": [] }
+      }, "default": null },
+      "selection_box": { "optional": true, "type": "rect", "default": "" },
+      "weight": { "optional": true, "type": "float", "default": 1 }
+    }
+  },
+  "entity-with-health": { "abstract": true, "parent": "entity",
+    "properties": {
+      "max_health": { "optional": false, "type": "float" }
+    }
+  },
+  "equipment": { "abstract": true, "parent": null },
+  "explosion": { "parent": "entity" },
+  "fish": { "parent": "entity-with-health" },
+  "fluid": { "parent": null,
+    "properties": {
+      "default_temperature": { "optional": false, "type": "float" },
+      "flow_to_energy_ratio": { "optional": false, "type": "float" },
+      "icon": { "optional": false, "type": "FileName" },
+      "max_temperature": { "optional": false, "type": "float" },
+      "order": { "optional": true, "type": "string", "default": "" },
+      "pressure_to_speed_ratio": { "optional": false, "type": "float" },
+      "subgroup": { "optional": true, "type": "ItemSubgroup", "default": "fluid" }
+    }
+  },
+  "flying-text": { "parent": "entity" },
+  "furnace": { "parent": "entity-with-health",
+    "properties": {
+      "crafting_categories": { "optional": false, "type": ["RecipeCategory"] },
+      "crafting_speed": { "optional": false, "type": "float" }
+    }
+  },
+  "generator": { "parent": "pipe-connectable" },
+  "generator-equipment": { "parent": "equipment" },
+  "ghost": { "abstract": true, "parent": "entity" },
+  "gun": { "parent": "item" },
+  "inserter": { "parent": "entity-with-health",
+    "properties": {
+      "energy_per_movement": { "optional": false, "type": "integer" },
+      "energy_per_rotation": { "optional": false, "type": "integer" },
+      "extension_speed": { "optional": false, "type": "float" },
+      "rotation_speed": { "optional": false, "type": "float" },
+      "filter_count": { "optional": true, "type": "integer", "default": 0 },
+      "hand_size": { "optional": true, "type": "float", "default": 1 },
+      "stack": { "optional": true, "type": "bool", "default": "false" }
+    }
+  },
+  "item": { "parent": null,
+    "properties": {
+      "icon": { "optional": true, "type": "FileName", "default": "" },
+      "stack_size": { "optional": true, "type": "integer", "default": 1 },
+      "subgroup": { "optional": true, "type": "ItemSubgroup", "default": "other" },
+      "order": { "optional": true, "type": "string", "default": "" }
+    }
+  },
+  "item-entity": { "parent": "entity" },
+  "item-group": { "parent": null,
+    "properties": {
+      "icon": { "optional": false, "type": "FileName" },
+      "inventory_order": { "optional": true, "type": "string", "default": "" },
+      "order": { "optional": false, "type": "string" }
+    }
+  },
+  "item-subgroup": { "parent": null,
+    "properties": {
+      "group": { "optional": false, "type": "ItemGroup" },
+      "order": { "optional": false, "type": "string" }
+    }
+  },
+  "item-with-inventory": { "parent": "item-with-label" },
+  "item-with-label": { "parent": "item", "abstract": true },
+  "lab": { "parent": "entity-with-health" },
+  "lamp": { "parent": "entity-with-health" },
+  "land-mine": { "parent": "entity" },
+  "locomotive": { "parent": "train-unit" },
+  "logistic-container": { "parent": "smart-container" },
+  "logistic-robot": { "parent": "robot" },
+  "map-settings": { "parent": null },
+  "market": { "parent": "entity-with-health" },
+  "mining-drill": { "parent": "entity-with-health",
+    "properties": {
+      "mining_power": { "optional": false, "type": "float" },
+      "mining_speed": { "optional": false, "type": "float" },
+      "resource_categories": { "optional": false, "type": ["ResourceCategory"] }
+    }
+  },
+  "mining-tool": { "parent": "tool" },
+  "module": { "parent": "item" },
+  "movement-bonus-equipment": { "parent": "equipment" },
+  "night-vision-equipment": { "parent": "equipment" },
+  "noise-layer": { "parent": null },
+  "particle": { "parent": "entity" },
+  "pipe": { "parent": "pipe-connectable" },
+  "pipe-connectable": { "abstract": true, "parent": "entity-with-health" },
+  "pipe-to-ground": { "parent": "pipe-connectable" },
+  "player": { "parent": "entity-with-health" },
+  "player-port": { "parent": "entity-with-health" },
+  "projectile": { "parent": "entity" },
+  "pump": { "parent": "pipe-connectable" },
+  "radar": { "parent": "entity-with-health" },
+  "rail-category": { "parent": null },
+  "rail-remnants": { "parent": "entity" },
+  "rail-signal": { "parent": "entity-with-health" },
+  "recipe": { "parent": null,
+    "complex-properties": {
+      "ingredients": "recipe_ingredients",
+      "results": "recipe_results"
     },
-    "entity-with-health": { "abstract": true, "parent": "entity",
-        "properties": {
-            "max_health": { "optional": false, "type": "float" }
-         }
+    "properties": {
+      "category": { "optional": true, "type": "RecipeCategory", "default": "crafting" },
+      "energy_required": { "optional": true, "type": "float", "default": 0.5 },
+      "enabled": { "optional": true, "type": "bool", "default": true },
+      "hidden": { "optional": true, "type": "bool", "default": false },
+      "icon": { "optional": true, "type": "FileName", "default": null },
+      "order": { "optional": true, "type": "string", "default": "" },
+      "subgroup": { "optional": true, "type": "string", "default": "other" }
+    }
+  },
+  "recipe-category": { "parent": null },
+  "repair-tool": { "parent": "tool" },
+  "resource": { "parent": "entity",
+    "properties": {
+      "category": {"optional": true, "type": "ResourceCategory", "default": "basic-solid" },
+      "infinite": {"optional": true, "type": "bool", "default": false },
+      "maximum": { "optional": true, "type": "integer", "default": 0 },
+      "minimum": { "optional": true, "type": "integer", "default": 0 },
+      "normal": { "optional": true, "type": "integer", "default": 0 }
+    }
+  },
+  "roboport": { "parent": "entity-with-health" },
+  "robot": { "abstract": true, "parent": "entity-with-health" },
+  "rocket-defense": { "parent": "entity-with-health" },
+  "selection-tool": { "parent": "item-with-label" },
+  "smart-container": { "parent": "container" },
+  "smoke": { "parent": "entity" },
+  "solar-panel": { "parent": "entity-with-health" },
+  "solar-panel-equipment": { "parent": "equipment" },
+  "splitter": { "parent": "entity-with-health" },
+  "sticker": { "parent": "entity" },
+  "straight-rail": { "parent": "entity-with-health" },
+  "technology": { "parent": null,
+    "complex-properties": {
+      "effects": "tech_effects"
     },
-    "equipment": { "abstract": true, "parent": null },
-    "explosion": { "parent": "entity" },
-    "fish": { "parent": "entity-with-health" },
-    "fluid": { "parent": null,
-      "properties": {
-        "default_temperature": { "optional": false, "type": "float" },
-        "flow_to_energy_ratio": { "optional": false, "type": "float" },
-        "icon": { "optional": false, "type": "FileName" },
-        "max_temperature": { "optional": false, "type": "float" },
-        "order": { "optional": true, "type": "string", "default": "" },
-        "pressure_to_speed_ratio": { "optional": false, "type": "float" },
-        "subgroup": { "optional": true, "type": "ItemSubgroup", "default": "fluid" }
-       }
-    },
-    "flying-text": { "parent": "entity" },
-    "furnace": { "parent": "entity-with-health",
-      "properties": {
-        "crafting_categories": { "optional": false, "type": ["RecipeCategory"] },
-        "crafting_speed": { "optional": false, "type": "float" }
-      }
-    },
-    "generator": { "parent": "pipe-connectable" },
-    "generator-equipment": { "parent": "equipment" },
-    "ghost": { "abstract": true, "parent": "entity" },
-    "gun": { "parent": "item" },
-    "inserter": { "parent": "entity-with-health",
-      "properties": {
-        "energy_per_movement": { "optional": false, "type": "integer" },
-        "energy_per_rotation": { "optional": false, "type": "integer" },
-        "extension_speed": { "optional": false, "type": "float" },
-        "rotation_speed": { "optional": false, "type": "float" },
-        "filter_count": { "optional": true, "type": "integer", "default": 0 },
-        "hand_size": { "optional": true, "type": "float", "default": 1 },
-        "stack": { "optional": true, "type": "bool", "default": "false" }
-      }
-    },
-    "item": { "parent": null,
-        "properties": {
-            "icon": { "optional": true, "type": "FileName", "default": "" },
-            "stack_size": { "optional": true, "type": "integer", "default": 1 },
-            "subgroup": { "optional": true, "type": "ItemSubgroup", "default": "other" },
-            "order": { "optional": true, "type": "string", "default": "" }
-        }
-    },
-    "item-entity": { "parent": "entity" },
-    "item-group": { "parent": null,
-      "properties": {
-        "icon": { "optional": false, "type": "FileName" },
-        "inventory_order": { "optional": true, "type": "string", "default": "" },
-        "order": { "optional": false, "type": "string" }
-      }
-    },
-    "item-subgroup": { "parent": null,
-      "properties": {
-        "group": { "optional": false, "type": "ItemGroup" },
-        "order": { "optional": false, "type": "string" }
-      }
-    },
-    "item-with-inventory": { "parent": "item-with-label" },
-    "item-with-label": { "parent": "item", "abstract": true },
-    "lab": { "parent": "entity-with-health" },
-    "lamp": { "parent": "entity-with-health" },
-    "land-mine": { "parent": "entity" },
-    "locomotive": { "parent": "train-unit" },
-    "logistic-container": { "parent": "smart-container" },
-    "logistic-robot": { "parent": "robot" },
-    "map-settings": { "parent": null },
-    "market": { "parent": "entity-with-health" },
-    "mining-drill": { "parent": "entity-with-health",
-      "properties": {
-        "mining_power": { "optional": false, "type": "float" },
-        "mining_speed": { "optional": false, "type": "float" },
-        "resource_categories": { "optional": false, "type": ["ResourceCategory"] }
-      }
-    },
-    "mining-tool": { "parent": "tool" },
-    "module": { "parent": "item" },
-    "movement-bonus-equipment": { "parent": "equipment" },
-    "night-vision-equipment": { "parent": "equipment" },
-    "noise-layer": { "parent": null },
-    "particle": { "parent": "entity" },
-    "pipe": { "parent": "pipe-connectable" },
-    "pipe-connectable": { "abstract": true, "parent": "entity-with-health" },
-    "pipe-to-ground": { "parent": "pipe-connectable" },
-    "player": { "parent": "entity-with-health" },
-    "player-port": { "parent": "entity-with-health" },
-    "projectile": { "parent": "entity" },
-    "pump": { "parent": "pipe-connectable" },
-    "radar": { "parent": "entity-with-health" },
-    "rail-category": { "parent": null },
-    "rail-remnants": { "parent": "entity" },
-    "rail-signal": { "parent": "entity-with-health" },
-    "recipe": { "parent": null,
-        "complex-properties": {
-          "ingredients": "recipe_ingredients",
-          "results": "recipe_results"
-        },
-        "properties": {
-            "category": { "optional": true, "type": "RecipeCategory", "default": "crafting" },
-            "energy_required": { "optional": true, "type": "float", "default": 0.5 },
-            "enabled": { "optional": true, "type": "bool", "default": true },
-            "hidden": { "optional": true, "type": "bool", "default": false },
-            "icon": { "optional": true, "type": "FileName", "default": null },
-            "order": { "optional": true, "type": "string", "default": "" },
-            "subgroup": { "optional": true, "type": "string", "default": "other" }
-        }
-    },
-    "recipe-category": { "parent": null },
-    "repair-tool": { "parent": "tool" },
-    "resource": { "parent": "entity",
-      "properties": {
-        "category": {"optional": true, "type": "ResourceCategory", "default": "basic-solid" },
-        "infinite": {"optional": true, "type": "bool", "default": false },
-        "maximum": { "optional": true, "type": "integer", "default": 0 },
-        "minimum": { "optional": true, "type": "integer", "default": 0 },
-        "normal": { "optional": true, "type": "integer", "default": 0 }
-      }
-    },
-    "roboport": { "parent": "entity-with-health" },
-    "robot": { "abstract": true, "parent": "entity-with-health" },
-    "rocket-defense": { "parent": "entity-with-health" },
-    "selection-tool": { "parent": "item-with-label" },
-    "smart-container": { "parent": "container" },
-    "smoke": { "parent": "entity" },
-    "solar-panel": { "parent": "entity-with-health" },
-    "solar-panel-equipment": { "parent": "equipment" },
-    "splitter": { "parent": "entity-with-health" },
-    "sticker": { "parent": "entity" },
-    "straight-rail": { "parent": "entity-with-health" },
-    "technology": { "parent": null,
-        "properties": {
-            "order": { "optional": false, "type": "string" },
-            "icon": { "optional": false, "type": "FileName" },
-            "prerequisites": { "optional": true, "type": [ "Technology" ], "default": [] },
-            "upgrade": { "optional": true, "type": "bool", "default": false },
-            "icon_size": { "optional": true, "type": "integer", "default": 32 },
-            "unit": { "optional": false, "type": {
-                "count": { "optional": false, "type": "integer" },
-                "ingredients": { "optional": false, "type": [[
-                    "tuple", "Item", "integer"
-                ]]},
-                "time": { "optional": false, "type": "integer" }
-            }}
-        }
-    },
-    "tile": { "parent": null },
-    "tool": { "parent": "item" },
-    "train-stop": { "parent": "entity-with-health" },
-    "train-unit": { "abstract": true, "parent": "entity-with-health" },
-    "transport-belt": { "parent": "entity-with-health",
-      "properties": {
-        "speed": { "optional": false, "type": "float" }
-      }
-    },
-    "tree": { "parent": "entity-with-health" },
-    "turret": { "parent": "entity-with-health" },
-    "underground-belt": { "parent": "entity-with-health" },
-    "unit": { "parent": "entity-with-health" },
-    "unit-spawner": { "parent": "entity-with-health" },
-    "virtual-signal": { "parent": null,
-        "properties": {
-            "icon": { "optional": false, "type": "FileName" },
-            "order": { "optional": false, "type": "string" },
-            "special_signal": { "optional": true, "type": "bool", "default": false },
-            "subgroup": { "optional": false, "type": "string" }
-        }
-    },
-    "wall": { "parent": "entity-with-health" },
+    "properties": {
+      "icon": { "optional": false, "type": "FileName" },
+      "icon_size": { "optional": true, "type": "integer", "default": 32 },
+      "order": { "optional": false, "type": "string" },
+      "prerequisites": { "optional": true, "type": [ "Technology" ], "default": [] },
+      "upgrade": { "optional": true, "type": "bool", "default": false },
+      "unit": { "optional": false, "type": {
+        "count": { "optional": false, "type": "integer" },
+        "ingredients": { "optional": false, "type": [[
+          "tuple", "Item", "integer"
+        ]]},
+        "time": { "optional": false, "type": "integer" }
+      }}
+    }
+  },
+  "tile": { "parent": null },
+  "tool": { "parent": "item" },
+  "train-stop": { "parent": "entity-with-health" },
+  "train-unit": { "abstract": true, "parent": "entity-with-health" },
+  "transport-belt": { "parent": "entity-with-health",
+    "properties": {
+      "speed": { "optional": false, "type": "float" }
+    }
+  },
+  "tree": { "parent": "entity-with-health" },
+  "turret": { "parent": "entity-with-health" },
+  "underground-belt": { "parent": "entity-with-health" },
+  "unit": { "parent": "entity-with-health" },
+  "unit-spawner": { "parent": "entity-with-health" },
+  "virtual-signal": { "parent": null,
+    "properties": {
+      "icon": { "optional": false, "type": "FileName" },
+      "order": { "optional": false, "type": "string" },
+      "special_signal": { "optional": true, "type": "bool", "default": false },
+      "subgroup": { "optional": false, "type": "string" }
+    }
+  },
+  "wall": { "parent": "entity-with-health" },
 
-    "achievement": { "parent": null,
-        "properties": {
-            "order": { "optional": false, "type": "string" },
-            "icon": { "optional": false, "type": "FileName" }
-        }
-    },
-    "build-entity-achievement": { "parent": "achievement" },
-    "construct-with-robots-achievement": { "parent": "achievement" },
-    "deconstruct-with-robots-achievement": { "parent": "achievement" },
-    "deliver-by-robots-achievement": { "parent": "achievement" },
-    "dont-build-entity-achievement": { "parent": "achievement" },
-    "dont-craft-manually-achievement": { "parent": "achievement" },
-    "dont-use-entity-in-energy-production-achievement": { "parent": "achievement" },
-    "finish-the-game-achievement": { "parent": "achievement" },
-    "group-attack-achievement": { "parent": "achievement" },
-    "kill-achievement": { "parent": "achievement" },
-    "player-damaged-achievement": { "parent": "achievement" },
-    "produce-achievement": { "parent": "achievement" },
-    "produce-per-hour-achievement": { "parent": "achievement" },
-    "research-achievement": { "parent": "achievement" },
-    "train-path-achievement": { "parent": "achievement" },
+  "achievement": { "parent": null,
+    "properties": {
+      "order": { "optional": false, "type": "string" },
+      "icon": { "optional": false, "type": "FileName" }
+    }
+  },
+  "build-entity-achievement": { "parent": "achievement" },
+  "construct-with-robots-achievement": { "parent": "achievement" },
+  "deconstruct-with-robots-achievement": { "parent": "achievement" },
+  "deliver-by-robots-achievement": { "parent": "achievement" },
+  "dont-build-entity-achievement": { "parent": "achievement" },
+  "dont-craft-manually-achievement": { "parent": "achievement" },
+  "dont-use-entity-in-energy-production-achievement": { "parent": "achievement" },
+  "finish-the-game-achievement": { "parent": "achievement" },
+  "group-attack-achievement": { "parent": "achievement" },
+  "kill-achievement": { "parent": "achievement" },
+  "player-damaged-achievement": { "parent": "achievement" },
+  "produce-achievement": { "parent": "achievement" },
+  "produce-per-hour-achievement": { "parent": "achievement" },
+  "research-achievement": { "parent": "achievement" },
+  "train-path-achievement": { "parent": "achievement" },
 
-    "ambient-sound": { "parent": null },
-    "arithmetic-combinator": { "parent": "entity-with-health" },
-    "constant-combinator": { "parent": "entity-with-health" },
-    "decider-combinator": { "parent": "entity-with-health" },
-    "fluid-turret": { "parent": "turret" },
-    "font": { "parent": null },
-    "gate": { "parent": "entity-with-health" },
-    "gui-style": { "parent": null },
-    "loader": { "parent": "entity-with-health" },
-    "offshore-pump": {"parent": "entity-with-health" },
-    "power-switch": {"parent": "entity-with-health" },
-    "rail-chain-signal": { "parent": "entity-with-health" },
-    "resource-category": { "parent": null },
-    "roboport-equipment": { "parent": "equipment" },
-    "rocket-silo": { "parent": "entity-with-health" },
-    "storage-tank": { "parent": "entity-with-health" },
+  "ambient-sound": { "parent": null },
+  "arithmetic-combinator": { "parent": "entity-with-health" },
+  "constant-combinator": { "parent": "entity-with-health" },
+  "decider-combinator": { "parent": "entity-with-health" },
+  "fluid-turret": { "parent": "turret" },
+  "font": { "parent": null },
+  "gate": { "parent": "entity-with-health" },
+  "gui-style": { "parent": null },
+  "loader": { "parent": "entity-with-health" },
+  "offshore-pump": {"parent": "entity-with-health" },
+  "power-switch": {"parent": "entity-with-health" },
+  "rail-chain-signal": { "parent": "entity-with-health" },
+  "resource-category": { "parent": null },
+  "roboport-equipment": { "parent": "equipment" },
+  "rocket-silo": { "parent": "entity-with-health" },
+  "storage-tank": { "parent": "entity-with-health" },
 
-    "item-with-entity-data": { "parent": "item" }
+  "item-with-entity-data": { "parent": "item" }
 }

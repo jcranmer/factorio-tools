@@ -125,3 +125,21 @@ def entity_animation(data, lua):
         return (d, ['picture'])
     else:
         return (None, [])
+
+def tech_effects(data, lua):
+    from factorio_schema import encode_lua
+    d = {'recipes': [], 'modifiers': []}
+    if 'effects' not in lua:
+        return (d, [])
+    for effect in lua.effects.values():
+        if effect.type == 'unlock-recipe':
+            d['recipes'].append(effect.recipe)
+        elif 'modifier' in effect:
+            d['modifiers'].append(encode_lua(effect))
+        else:
+            raise Exception("Unknown technology effect: %s" % str(list(effect.keys())))
+    return (d, ['effects'])
+
+
+complex_types = [
+]

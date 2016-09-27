@@ -160,6 +160,7 @@ data_types = {
     # Catch-all for data whose schema is not yet known
     '': lambda data, val: val
 }
+data_types.update((f.__name__, f) for f in factorio_types.complex_types)
 
 def parse_data_value(schema_type, data, value):
     '''Parse and convert the value according to the descriptor type. The data
@@ -230,7 +231,7 @@ def encode_lua(obj):
     resp = dict()
     for key, value in obj.items():
         resp[key] = value
-    if all(x + 1 in resp for x in range(len(resp))):
+    if all(isinstance(x, int) for x in resp):
         return list(resp[x + 1] for x in range(len(resp)))
     return resp
 
