@@ -112,16 +112,18 @@ def get_load_order(modmap):
             sort_list.append(mod)
     return sort_list
 
-def get_mod_list(factorio_path, user_path=USER_PATH):
+def get_mod_list(factorio_path, mod_path, modlist):
     '''Returns a dict of modname -> mod filename mappings.'''
     # Grab a list of enabled mods
-    with open(os.path.join(user_path, 'mods', 'mod-list.json')) as fd:
-        modlist = json.load(fd)['mods']
-        enabled_mods = [d['name'] for d in modlist if d['enabled'] == 'true']
+    if modlist is None:
+        with open(os.path.join(mod_path, 'mod-list.json')) as fd:
+            modlist = json.load(fd)['mods']
+            enabled_mods = [d['name'] for d in modlist if d['enabled'] == 'true']
+    else:
+        enabled_mods = modlist
 
     # Map the mods to filenames or directories
-    possible_files = [os.path.join(os.path.join(user_path, 'mods'), f)
-        for f in os.listdir(os.path.join(user_path, 'mods'))]
+    possible_files = [os.path.join(mod_path, f) for f in os.listdir(mod_path)]
 
     # Map modnames to filenames
     modnames = {}
@@ -142,7 +144,7 @@ def get_mod_list(factorio_path, user_path=USER_PATH):
 class FactorioData(object):
     '''This class represents the contextual data for a Factorio data and loaded
     mods.'''
-    def __init__(self, path):
+    def __init__(self, path, mod_path, mod_list):
         self.lua = lupa.LuaRuntime(unpack_returned_tuples=True)
 
         # Load the base modules
@@ -151,7 +153,7 @@ class FactorioData(object):
 
         # Get the list of mods to use. Note that the base data is itself a
         # module.
-        self.mods = get_mod_list(path)
+        self.mods = get_mod_list(path, mod_path, mod_list)
         load_order = get_load_order(self.mods)
 
         # We need the core data for a few things, even though it's not listed as
@@ -271,7 +273,8 @@ class FactorioData(object):
             return ""
         return name.replace('__base__', os.path.join(FACTORIO_PATH, 'data', 'base'))
 
-def load_factorio(path=FACTORIO_PATH):
+def load_factorio(path=FACTORIO_PATH, mod_path=os.path.join(USER_PATH, "mods"),
+        mod_list=None):
     '''Load the FactorioData for a given path, defaulting to the default Steam
     install location.'''
-    return FactorioData(path)
+    return FactorioData(path, mod_path, mod_list)
