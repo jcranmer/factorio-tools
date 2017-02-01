@@ -59,6 +59,10 @@ def tech_tree():
 def ratio():
     return flask.render_template('ratio.html')
 
+@app.route('/')
+def index():
+    return flask.render_template('index.html')
+
 # XXX
 @app.route('/scripts/<path:script>')
 def script(script):
