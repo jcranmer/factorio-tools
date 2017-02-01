@@ -7,14 +7,26 @@ import factorio_schema
 import json
 import lupa
 import os
+import platform
 import StringIO
 import zipfile
 
-# XXX: Fix these for !Linux
-FACTORIO_PATH = os.path.join(
-    os.path.expanduser("~"), ".steam", "steam", "SteamApps", "common",
-    "Factorio")
-USER_PATH = os.path.join(os.path.expanduser("~"), ".factorio")
+# Detect default install paths for various platforms.
+if platform.system() == 'Linux':
+    FACTORIO_PATH = os.path.join(
+       os.path.expanduser("~"), ".steam", "steam", "SteamApps", "common",
+        "Factorio")
+    USER_PATH = os.path.join(os.path.expanduser("~"), ".factorio")
+elif platform.system() == 'Darwin':
+    FACTORIO_PATH = os.path.join(
+        os.path.expanduser("~"), "Library", "Application Support", "Steam",
+        "steamapps", "common", "Factorio", "factorio.app", "Contents")
+    USER_PATH = os.path.join(os.path.expanduser("~"), "Library",
+        "Application Support", "factorio")
+else:
+    raise Exception(
+        "Path to system install of Factorio not found for platform %s" %
+        platform.system())
 
 class cached_property(object):
     '''A memoizer for caching getters/setters.'''
