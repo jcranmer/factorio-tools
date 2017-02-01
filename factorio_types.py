@@ -4,11 +4,12 @@ helps fix issues like the potential for multiple forms of specifications.
 '''
 
 mining_schema = [{
-        "amount_max": { "optional": False, "type": "float" },
-        "amount_min": { "optional": False, "type": "float" },
+        "amount": { "optional": True, "type": "float", "default": 0 },
+        "amount_max": { "optional": True, "type": "float", "default": 0 },
+        "amount_min": { "optional": True, "type": "float", "default": 0 },
         "name": { "optional": False, "type": "string" },
         "type": { "optional": False, "type": "string" },
-        "probability": { "optional": False, "type": "float" }
+        "probability": { "optional": True, "type": "float", "default": 1.0 }
 }]
 
 def mining_results(data, lua, output_dict):

@@ -47,11 +47,12 @@
         "mining_particle": { "optional": true, "type": "Particle", "default": null },
         "mining_time": { "optional": false, "type": "float", "default": 1 },
         "results": { "optional": true, "type": [{
-          "amount_max": { "optional": false, "type": "float" },
-          "amount_min": { "optional": false, "type": "float" },
+          "amount": { "optional": true, "type": "float", "default": 0 },
+          "amount_max": { "optional": true, "type": "float", "default": 0 },
+          "amount_min": { "optional": true, "type": "float", "default": 0 },
           "name": { "optional": false, "type": "string" },
           "type": { "optional": false, "type": "string" },
-          "probability": { "optional": false, "type": "float" }
+          "probability": { "optional": true, "type": "float", "default": 1.0 }
         }], "default": [] }
       }, "default": null },
       "selection_box": { "optional": true, "type": "rect", "default": "" },
@@ -199,7 +200,7 @@
     "properties": {
       "icon": { "optional": false, "type": "FileName" },
       "icon_size": { "optional": true, "type": "integer", "default": 32 },
-      "order": { "optional": false, "type": "string" },
+      "order": { "optional": true, "type": "string", "default": "" },
       "prerequisites": { "optional": true, "type": [ "Technology" ], "default": [] },
       "upgrade": { "optional": true, "type": "bool", "default": false },
       "unit": { "optional": false, "type": {

@@ -146,6 +146,7 @@ class FactorioData(object):
     mods.'''
     def __init__(self, path, mod_path, mod_list):
         self.lua = lupa.LuaRuntime(unpack_returned_tuples=True)
+        self.lua.globals().log = lambda s: None
 
         # Load the base modules
         add_package_path(self.lua, os.path.join(path, 'data', 'core', 'lualib'))
