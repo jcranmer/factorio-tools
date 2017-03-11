@@ -1,14 +1,75 @@
 import factorio
 import flask
 import json
+from PIL import Image, ImageChops
+import StringIO
+import sys
 
 app = flask.Flask(__name__)
-data = factorio.load_factorio()
+if len(sys.argv) > 1:
+    data = factorio.load_factorio(mod_path=sys.argv[1])
+else:
+    data = factorio.load_factorio()
 
 @app.route('/image/<path:image>')
 def show_image(image):
-    resp = flask.Response(mimetype="image/jpeg")
+    resp = flask.Response(mimetype="image/png")
     resp.set_data(data.load_path(image))
+    return resp
+
+@app.route('/icon/<table>/<entry>')
+def show_icon(table, entry):
+    try:
+        entry = data.load_pseudo_table(table)[entry]
+    except KeyError:
+        flask.abort(404)
+    if entry.icon:
+        return show_image(entry.icon)
+    elif entry.icons == [] and table == "recipe":
+        keys = entry.results.keys()
+        assert len(keys) == 1
+        return show_icon("item", keys[0])
+
+    # Get the icons, and add the layers to the icons.
+    icons = entry.icons
+    base_icon = icons[0]
+    image = Image.open(StringIO.StringIO(
+        data.load_path(base_icon['icon'])))
+    image = Image.new("RGBA", image.size)
+
+    for icon in icons:
+        if icon['icon']:
+            sub_image = Image.open(StringIO.StringIO(data.load_path(icon['icon'])))
+        else:
+            sub_image = Image.new("RGBA", image.size, (1, 1, 1, 1))
+        if icon['tint']:
+            def tint_component(base, tint):
+                x = float(base)/256.0
+                weight = x - 0.5
+                val = x + tint * (1.0 - 4.0 * weight * weight)
+                return int(val*256)
+            tints = [icon['tint'].get(c, 0.0) for c in "rgba"]
+            tints[0] *= tints[-1]
+            tints[1] *= tints[-1]
+            tints[2] *= tints[-1]
+            def tint_value(val):
+                return (tint_component(val[0], tints[0]),
+                        tint_component(val[1], tints[1]),
+                        tint_component(val[2], tints[2]),
+                        tint_component(val[3], tints[3]))
+            pix = sub_image.load()
+            for row in range(sub_image.size[0]):
+                for col in range(sub_image.size[1]):
+                    val = tint_value(pix[row, col])
+                    pix[row, col] = val
+        image.paste(sub_image, None, sub_image)
+
+    # Convert the image into a response.
+    resp = flask.Response(mimetype="image/png")
+    respfd = StringIO.StringIO()
+    image.save(respfd, "png")
+    resp.set_data(respfd.getvalue())
+    respfd.close()
     return resp
 
 @app.route('/data/lua_raw.json')

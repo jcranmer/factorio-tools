@@ -29,12 +29,19 @@ def mining_results(data, lua, output_dict):
     output_dict['results'] = arr
     return claimed
 
+def encode_lua(obj):
+    resp = dict()
+    for key, value in obj.items():
+        resp[key] = value
+    if all(x + 1 in resp for x in range(len(resp))):
+        return list(resp[x + 1] for x in range(len(resp)))
+    return resp
 def _map_array(lua_array, out_dict):
     for element in lua_array.values():
         if element.type:
             name = element.name
             ty = element.type
-            if element.amount:
+            if element.amount is not None:
                 amount = element.amount
                 if element.probability:
                     amount *= element.probability

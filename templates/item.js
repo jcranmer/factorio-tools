@@ -56,7 +56,7 @@ function make_item_selector(container, groups, subgroups, item_tables, on_select
       item_imgs.exit().remove();
       item_imgs.enter().append("img")
         .merge(item_imgs)
-        .attr("src", item => "image/" + item.icon)
+        .attr("src", item => "icon/" + item.type + "/" + item.name)
         .attr("title", item => tables.l10n["item-name"][item.name] || item.name)
         .attr("width", 32).attr("height", 32)
         .on("click", function (d) {
@@ -96,5 +96,5 @@ function name_item(item_name, table) {
     var item = tables.get('fluid')[item_name];
   else
     var item = tables.get('full-item')[item_name];
-  return "<img src=\"image/" + item.icon + "\"> " + item.name;
+  return "<img src=\"icon/" + item.type + "/" + item.name + "\"> " + item.name;
 }

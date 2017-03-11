@@ -101,18 +101,18 @@ def get_load_order(modmap):
     mods.remove('base')
 
     def satisfied_dep(dep):
-        pieces = dep.split()
-        optional = pieces[0] == '?'
+        optional = dep.startswith('?')
         if optional:
-            pieces.pop(0)
+            dep = dep[1:]
+        pieces = map(lambda x: x.strip(), dep.split('>='))
+        if optional:
             # Optional mods that aren't available to be loaded are satisfied.
             if pieces[0] not in modmap:
                 return True
-        if len(pieces) == 3:
-            if pieces[1] != '>=':
-                raise Exception("Unknown dep string: " + dep)
-            # XXX: check version?
-        return pieces[0] in sort_list
+        if len(pieces) == 2 or len(pieces) == 1:
+            return pieces[0] in sort_list
+        else:
+            raise Exception("Unknown dependency string: %s" % dep)
 
     while len(mods) > 0:
         for mod in mods:

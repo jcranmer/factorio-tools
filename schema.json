@@ -102,6 +102,14 @@
   },
   "item": { "parent": null,
     "properties": {
+      "icons": { "optional": true, "type": [{
+          "icon": { "optional": true, "type": "FileName", "default": "" },
+          "tint": {"optional": true, "default": null, "type": {
+            "r": {"optional": false, "type": "float"},
+            "g": {"optional": false, "type": "float"},
+            "b": {"optional": false, "type": "float"},
+            "a": {"optional": true, "type": "float", "default": 1.0}
+          }}}], "default": []},
       "icon": { "optional": true, "type": "FileName", "default": "" },
       "stack_size": { "optional": true, "type": "integer", "default": 1 },
       "subgroup": { "optional": true, "type": "ItemSubgroup", "default": "other" },
@@ -167,6 +175,14 @@
       "enabled": { "optional": true, "type": "bool", "default": true },
       "hidden": { "optional": true, "type": "bool", "default": false },
       "icon": { "optional": true, "type": "FileName", "default": null },
+      "icons": { "optional": true, "type": [{
+          "icon": { "optional": true, "type": "FileName", "default": "" },
+          "tint": {"optional": true, "default": null, "type": {
+            "r": {"optional": false, "type": "float"},
+            "g": {"optional": false, "type": "float"},
+            "b": {"optional": false, "type": "float"},
+            "a": {"optional": true, "type": "float", "default": 1.0}
+          }}}], "default": []},
       "order": { "optional": true, "type": "string", "default": "" },
       "subgroup": { "optional": true, "type": "string", "default": "other" }
     }
