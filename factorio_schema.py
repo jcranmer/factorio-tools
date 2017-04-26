@@ -340,10 +340,10 @@ if __name__ == '__main__':
     tables.sort()
     for table in tables:
         if table not in schema:
-            print 'Missing schema for %s' % table
+            print ('Missing schema for %s' % table)
             continue
         if schema[table].get('abstract', False):
-            print 'Table %s should be abstract!' % table
+            print ('Table %s should be abstract!' % table)
 
         # Find missing keys
         unknown_keys = set()
@@ -358,12 +358,12 @@ if __name__ == '__main__':
                 try:
                     getattr(wrapped, key)
                 except:
-                    print 'Property %s of %s has bad schema' % (key, table)
-                    print 'Value for %s: ->%s<-' % (wrapped.name, wrapped.lua[key])
+                    print ('Property %s of %s has bad schema' % (key, table))
+                    print ('Value for %s: ->%s<-' % (wrapped.name, wrapped.lua[key]))
                     raise
             if hasattr(wrapped, '_known_keys'):
                 known_keys += wrapped._known_keys
 
         unknown_keys.difference_update(set(known_keys))
         if unknown_keys:
-            print 'Missing properties for %s: %s' % (table, ', '.join(unknown_keys))
+            print ('Missing properties for %s: %s' % (table, ', '.join(unknown_keys)))

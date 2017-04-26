@@ -38,9 +38,9 @@ def encode_lua(obj):
     return resp
 def _map_array(lua_array, out_dict):
     for element in lua_array.values():
-        if element.type:
+        if element.name:
             name = element.name
-            ty = element.type
+            ty = element.type or 'item'
             if element.amount is not None:
                 amount = element.amount
                 if element.probability:
@@ -55,6 +55,8 @@ def _map_array(lua_array, out_dict):
     return
 
 def recipe_ingredients(data, lua):
+    if not lua.ingredients:
+        return recipe_ingredients(data, lua.normal)
     ingredients = {}
     _map_array(lua.ingredients, ingredients)
     return (ingredients, ['ingredients'])
@@ -64,9 +66,11 @@ def recipe_results(data, lua):
     if lua.result:
         results[lua.result] = lua.result_count if lua.result_count else 1
         return (results, ['result', 'result_count'])
-    else:
+    elif lua.results:
         _map_array(lua.results, results)
         return (results, ['results'])
+    else:
+        return recipe_results(data, lua.normal)
 
 picture_schema = {
     "animation_speed": {"optional": True, "type": "float", "default": 1.0},

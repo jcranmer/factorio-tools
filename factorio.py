@@ -100,6 +100,13 @@ def get_load_order(modmap):
     sort_list = ['base']
     mods.remove('base')
 
+    factorio_version = infos['base']['version']
+    factorio_version = factorio_version[:factorio_version.rfind('.')]
+    mods = filter(lambda mod:
+            infos[mod].get('factorio_version', factorio_version) ==
+                factorio_version,
+            mods)
+
     def satisfied_dep(dep):
         optional = dep.startswith('?')
         if optional:
@@ -114,6 +121,7 @@ def get_load_order(modmap):
         else:
             raise Exception("Unknown dependency string: %s" % dep)
 
+    last_len = len(mods)
     while len(mods) > 0:
         for mod in mods:
             if 'dependencies' in infos[mod]:
@@ -122,6 +130,10 @@ def get_load_order(modmap):
                     continue
             mods.remove(mod)
             sort_list.append(mod)
+        if len(mods) == last_len:
+            print("Unsatisfied mods:", mods)
+            raise Exception("Infinite order in mod dependencies")
+        last_len = len(mods)
     return sort_list
 
 def get_mod_list(factorio_path, mod_path, modlist):
@@ -130,7 +142,8 @@ def get_mod_list(factorio_path, mod_path, modlist):
     if modlist is None:
         with open(os.path.join(mod_path, 'mod-list.json')) as fd:
             modlist = json.load(fd)['mods']
-            enabled_mods = [d['name'] for d in modlist if d['enabled'] == 'true']
+            enabled_mods = [d['name'] for d in modlist
+                    if d['enabled'] in ('true', True)]
     else:
         enabled_mods = modlist
 
@@ -169,6 +182,9 @@ class FactorioData(object):
         self.mods = get_mod_list(path, mod_path, mod_list)
         load_order = get_load_order(self.mods)
 
+        # Load a defines Lua object.
+        self.lua.require('defines')
+
         # We need the core data for a few things, even though it's not listed as
         # a module itself.
         self.mods['core'] = os.path.join(path, 'data', 'core')
@@ -195,6 +211,8 @@ class FactorioData(object):
                 context = os.path.dirname(stack[-1])
             if filename.startswith('..'):
                 filename = os.path.normpath(os.path.join(context, filename))
+            elif filename.startswith('.'):
+                filename = os.path.normpath(os.path.join(context, filename[1:]))
             filename = filename.replace('.', '/')
             try:
                 contents = read_mod_file(self.mods[modname], filename + '.lua')
@@ -242,7 +260,7 @@ class FactorioData(object):
         wrapper from the factorio_schema module.'''
         converted = dict()
         if self._data[table] == None:
-            print table
+            print (table)
         for name, value in self._data[table].items():
             converted[name] = factorio_schema.make_wrapper_object(self, value)
         return converted

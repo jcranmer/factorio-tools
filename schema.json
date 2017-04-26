@@ -16,6 +16,7 @@
   "autoplace-control": { "parent": null },
   "battery-equipment": { "parent": "equipment" },
   "beacon": { "parent": "entity-with-health" },
+  "belt-immunity-equipment": { "parent": "equipment" },
   "blueprint": { "parent": "selection-tool" },
   "blueprint-book": { "parent": "item-with-inventory" },
   "boiler": { "parent": "pipe-connectable" },
@@ -46,6 +47,8 @@
         "hardness": { "optional": true, "type": "float", "default": 1 },
         "mining_particle": { "optional": true, "type": "Particle", "default": null },
         "mining_time": { "optional": false, "type": "float", "default": 1 },
+        "required_fluid": { "optional": true, "type": "Fluid", "default": null },
+        "fluid_amount": { "optional": true, "type": "float", "default": 10.0 },
         "results": { "optional": true, "type": [{
           "amount": { "optional": true, "type": "float", "default": 0 },
           "amount_max": { "optional": true, "type": "float", "default": 0 },
@@ -78,6 +81,7 @@
       "subgroup": { "optional": true, "type": "ItemSubgroup", "default": "fluid" }
     }
   },
+  "fluid-wagon": { "parent": "train-unit" },
   "flying-text": { "parent": "entity" },
   "furnace": { "parent": "entity-with-health",
     "properties": {
@@ -104,6 +108,8 @@
     "properties": {
       "icons": { "optional": true, "type": [{
           "icon": { "optional": true, "type": "FileName", "default": "" },
+          "scale": { "optional": true, "type": "float", "default": 0.0 },
+          "shift": { "optional": true, "default": [], "type": ["integer"]},
           "tint": {"optional": true, "default": null, "type": {
             "r": {"optional": false, "type": "float"},
             "g": {"optional": false, "type": "float"},
@@ -177,6 +183,8 @@
       "icon": { "optional": true, "type": "FileName", "default": null },
       "icons": { "optional": true, "type": [{
           "icon": { "optional": true, "type": "FileName", "default": "" },
+          "scale": { "optional": true, "type": "float", "default": 0.0 },
+          "shift": { "optional": true, "default": [], "type": ["integer"]},
           "tint": {"optional": true, "default": null, "type": {
             "r": {"optional": false, "type": "float"},
             "g": {"optional": false, "type": "float"},
@@ -220,7 +228,8 @@
       "prerequisites": { "optional": true, "type": [ "Technology" ], "default": [] },
       "upgrade": { "optional": true, "type": "bool", "default": false },
       "unit": { "optional": false, "type": {
-        "count": { "optional": false, "type": "integer" },
+        "count": { "optional": true, "type": "integer", "default": 0 },
+        "count_formula": { "optional": true, "type": "string", "default": "" },
         "ingredients": { "optional": false, "type": [[
           "tuple", "Item", "integer"
         ]]},
