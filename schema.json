@@ -93,6 +93,7 @@
   "generator-equipment": { "parent": "equipment" },
   "ghost": { "abstract": true, "parent": "entity" },
   "gun": { "parent": "item" },
+  "heat-pipe": { "parent": "entity" },
   "inserter": { "parent": "entity-with-health",
     "properties": {
       "energy_per_movement": { "optional": false, "type": "integer" },
@@ -170,6 +171,7 @@
   "rail-category": { "parent": null },
   "rail-remnants": { "parent": "entity" },
   "rail-signal": { "parent": "entity-with-health" },
+  "reactor": { "parent": "entity" },
   "recipe": { "parent": null,
     "complex-properties": {
       "ingredients": "recipe_ingredients",
