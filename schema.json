@@ -93,6 +93,7 @@
   "generator-equipment": { "parent": "equipment" },
   "ghost": { "abstract": true, "parent": "entity" },
   "gun": { "parent": "item" },
+  "heat-pipe": { "parent": "entity" },
   "inserter": { "parent": "entity-with-health",
     "properties": {
       "energy_per_movement": { "optional": false, "type": "integer" },
@@ -164,12 +165,14 @@
   "pipe-to-ground": { "parent": "pipe-connectable" },
   "player": { "parent": "entity-with-health" },
   "player-port": { "parent": "entity-with-health" },
+  "programmable-speaker": { "parent": "entity" },
   "projectile": { "parent": "entity" },
   "pump": { "parent": "pipe-connectable" },
   "radar": { "parent": "entity-with-health" },
   "rail-category": { "parent": null },
   "rail-remnants": { "parent": "entity" },
   "rail-signal": { "parent": "entity-with-health" },
+  "reactor": { "parent": "entity" },
   "recipe": { "parent": null,
     "complex-properties": {
       "ingredients": "recipe_ingredients",
