@@ -165,7 +165,7 @@
   "pipe-to-ground": { "parent": "pipe-connectable" },
   "player": { "parent": "entity-with-health" },
   "player-port": { "parent": "entity-with-health" },
-  "programmable-speaker": { "parent": "entity"},
+  "programmable-speaker": { "parent": "entity" },
   "projectile": { "parent": "entity" },
   "pump": { "parent": "pipe-connectable" },
   "radar": { "parent": "entity-with-health" },
